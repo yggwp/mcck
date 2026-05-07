@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.PowerManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
@@ -25,6 +26,7 @@ class LocationMockService : Service() {
     private var lat = 0.0
     private var lon = 0.0
     private lateinit var adbManager: AdbManager
+    private var wakeLock: PowerManager.WakeLock? = null
 
     // Configuration from v4.bash
     private val injectInterval = 100L // 0.1 detik
@@ -64,7 +66,12 @@ class LocationMockService : Service() {
     }
 
     private fun startMocking() {
+        if (isMocking) return
         isMocking = true
+
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AutoMockLocation::MockingWakeLock")
+        wakeLock?.acquire()
 
         mockJob = CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -110,6 +117,10 @@ class LocationMockService : Service() {
     private fun stopMocking() {
         isMocking = false
         mockJob?.cancel()
+        
+        if (wakeLock?.isHeld == true) {
+            wakeLock?.release()
+        }
 
         // Cleanup
         CoroutineScope(Dispatchers.IO).launch {

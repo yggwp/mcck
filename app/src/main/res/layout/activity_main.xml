@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nyalakan Wireless Debugging. Jika belum pernah pair, masukkan 6 digit Pairing Code lalu tekan Auto-Connect."
+            android:text="Nyalakan Wireless Debugging. Jika belum pernah pair, masukkan 6 digit Pairing Code. Anda bisa memasukkan Port secara manual atau biarkan kosong untuk mencari otomatis."
             android:textSize="12sp"
             android:paddingBottom="8dp"/>
 
@@ -30,6 +30,30 @@
             android:layout_height="wrap_content"
             android:hint="Pairing Code (Opsional, kosongi jika sudah pair)"
             android:inputType="number" />
+            
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/etIpAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="127.0.0.1"
+                android:hint="IP Address" />
+
+            <EditText
+                android:id="@+id/etConnectPort"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Port Koneksi (Opsional)"
+                android:inputType="number" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

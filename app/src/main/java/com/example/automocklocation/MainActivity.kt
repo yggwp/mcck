@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupButtons() {
         val etPairingCode = findViewById<EditText>(R.id.etPairingCode)
+        val etIpAddress = findViewById<EditText>(R.id.etIpAddress)
+        val etConnectPort = findViewById<EditText>(R.id.etConnectPort)
         val etLatitude = findViewById<EditText>(R.id.etLatitude)
         val etLongitude = findViewById<EditText>(R.id.etLongitude)
 
@@ -75,7 +77,30 @@ class MainActivity : AppCompatActivity() {
 
         btnConnectAdb.setOnClickListener {
             val pairingCode = etPairingCode.text.toString()
-            discoverAndConnectAdb(pairingCode)
+            val ipAddress = etIpAddress.text.toString()
+            val manualPort = etConnectPort.text.toString()
+            
+            if (ipAddress.isNotEmpty()) {
+                adbManager.currentIp = ipAddress
+            }
+
+            if (manualPort.isNotEmpty()) {
+                tvAdbStatus.text = "Status: Menghubungkan ke port manual..."
+                tvAdbStatus.setTextColor(android.graphics.Color.BLUE)
+                
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (pairingCode.isNotEmpty()) {
+                        log("Pairing manual dengan port $manualPort...")
+                        val pairOut = adbManager.pair(manualPort, pairingCode)
+                        log(pairOut)
+                    }
+                    withContext(Dispatchers.Main) {
+                        connectToAdb(manualPort)
+                    }
+                }
+            } else {
+                discoverAndConnectAdb(pairingCode)
+            }
         }
 
         btnStopAdb.setOnClickListener {
