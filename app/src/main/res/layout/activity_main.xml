@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. ADB Wireless Pairing"
+            android:text="1. ADB Wireless Auto-Connect"
             android:textSize="18sp"
             android:textStyle="bold"
             android:paddingBottom="8dp"/>
@@ -20,47 +20,41 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buka Developer Options > Wireless Debugging > Pair device with pairing code."
+            android:text="Nyalakan Wireless Debugging. Jika belum pernah pair, masukkan 6 digit Pairing Code lalu tekan Auto-Connect."
             android:textSize="12sp"
             android:paddingBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etPairingCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pairing Code (Opsional, kosongi jika sudah pair)"
+            android:inputType="number" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="8dp"
             android:weightSum="2">
 
-            <EditText
-                android:id="@+id/etPairingPort"
+            <Button
+                android:id="@+id/btnConnectAdb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Pairing Port"
-                android:inputType="number" />
+                android:text="Auto Connect"
+                android:backgroundTint="#2196F3"/>
 
-            <EditText
-                android:id="@+id/etPairingCode"
+            <Button
+                android:id="@+id/btnStopAdb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Pairing Code (6 digit)"
-                android:inputType="number" />
+                android:text="Stop ADB"
+                android:backgroundTint="#9E9E9E"
+                android:layout_marginLeft="8dp"/>
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/etConnectPort"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Connection Port (di halaman depan Wireless Debug)"
-            android:inputType="number"
-            android:layout_marginTop="8dp"/>
-
-        <Button
-            android:id="@+id/btnConnectAdb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hubungkan &amp; Beri Izin"
-            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/tvAdbStatus"

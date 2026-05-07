@@ -35,7 +35,21 @@ class AdbManager(private val context: Context) {
     }
 
     fun grantMockLocation(packageName: String): String {
-        return runCommand(listOf(adbFile.absolutePath, "-s", "127.0.0.1", "shell", "appops", "set", packageName, "android:mock_location", "allow"))
+        return shellCommand(listOf("appops", "set", packageName, "android:mock_location", "allow"))
+    }
+
+    fun disconnect(): String {
+        return runCommand(listOf(adbFile.absolutePath, "disconnect"))
+    }
+
+    fun killServer(): String {
+        return runCommand(listOf(adbFile.absolutePath, "kill-server"))
+    }
+
+    fun shellCommand(args: List<String>): String {
+        val command = mutableListOf(adbFile.absolutePath, "-s", "127.0.0.1", "shell")
+        command.addAll(args)
+        return runCommand(command)
     }
 
     private fun runCommand(command: List<String>): String {
